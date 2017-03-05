@@ -1,0 +1,31 @@
+{
+  "name": "Wedding",
+  "version": "0.1.0",
+  "description": "Wedding website",
+  "main": "server.js",
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "engines": {
+    "node": "6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lkgarrison/wedding"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-express": "^1.4.1",
+    "grunt-open": "^0.2.3",
+    "matchdep": "^1.0.0"
+  }
+}
