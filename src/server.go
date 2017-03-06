@@ -10,22 +10,23 @@ import (
 )
 
 type Rsvp struct {
-	NAME string `json: "name"`
+	Name string `json: "name"`
+	NumGuests int `json: "num_Guests"`
+	IsAttending bool `json: "IsAttending"`
 }
 
 const (
 	MongoDBHosts = "ds119370.mlab.com:19370"
-	AuthDatabase = "heroku_dqrb1b90"
+	Database = "heroku_dqrb1b90"
 	AuthUserName = "admin"
 	AuthPassword = "testing123"
-	TestDatabase = "heroku_dqrb1b90"
 )
 
 func main() {
 	mongoDBDialInfo := &mgo.DialInfo{
 		Addrs:    []string{MongoDBHosts},
 		Timeout:  60 * time.Second,
-		Database: AuthDatabase,
+		Database: Database,
 		Username: AuthUserName,
 		Password: AuthPassword,
 	}
@@ -35,14 +36,7 @@ func main() {
 		log.Fatalf("CreateSession: %s\n", err)
 	}
 
-	fmt.Println(mongoSession)
-
-	rsvpCollection := mongoSession.DB("heroku_dqrb1b90").C("rsvps")
-
-	err = rsvpCollection.Insert(&Rsvp{"Nick"})
-	if err != nil {
-		log.Fatal(err)
-	}
+	db := mongoSession.DB(Database)
 
 	r := gin.Default()
 
@@ -58,10 +52,29 @@ func main() {
 	r.POST("/rsvp", func(c *gin.Context) {
 		var rsvp Rsvp
 		c.BindJSON(&rsvp)
-		fmt.Println(rsvp.NAME)
-		c.JSON(200, gin.H{
-			"message": "success",
-		})
+		fmt.Println(rsvp.Name)
+
+		rsvpCollection := db.C("rsvps")
+
+		err = rsvpCollection.Insert(
+			&Rsvp{
+				Name: rsvp.Name,
+				NumGuests: rsvp.NumGuests,
+				IsAttending: rsvp.IsAttending})
+
+		if err != nil {
+			// handle error
+			log.Fatal(err)
+			c.JSON(400, gin.H{
+				"error": true,
+				"message": err,
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"error": false,
+				"message": "success",
+			})
+		}
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080
