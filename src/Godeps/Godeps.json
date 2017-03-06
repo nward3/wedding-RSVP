@@ -1,0 +1,11 @@
+{
+	"ImportPath": "github.com/nward3/wedding-RSVP",
+	"GoVersion": "go1.8",
+	"Deps": [
+		{
+			"gopkg.in/gin-gonic/gin.v1"
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Rev": "e2212d40c62a98b388a5eb48ecbdcf88534688ba"
+		}
+	]
+}
