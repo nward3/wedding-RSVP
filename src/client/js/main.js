@@ -164,6 +164,7 @@ if(galleryCarousel) {
 /* 5. Form
 ===================================*/
 $('#rsvp-button').click(function() {
+	var $form = $('#rsvp-form');
 	// remove the error class
 	$('.form-group').removeClass('has-error');
 	$('.help-block').remove();
@@ -179,13 +180,20 @@ $('#rsvp-button').click(function() {
 		'isAttending' : $("#attending option:selected").val() === "Yes",
 		'weddingCode' : $('input[name="form-wedding-code"]').val()
 	};
+
+	console.log(formData);
+
 	// process the form
-	$.ajax({
-		type : 'POST',
+	// $.ajax({
+	// 	type : 'POST',
+	// 	url  : 'http://localhost:8080/rsvp',
+	// 	headers: {'Content-Type': 'application/json'},
+	// 	data : formData,
+	// 	processData: false
+	$.post({
 		url  : 'http://localhost:8080/rsvp',
 		data : formData,
-		dataType : 'json',
-		encode : true
+		dataType: 'json'
 	}).done(function (data) {
 		// handle errors
 		if (!data.success) {
@@ -204,10 +212,12 @@ $('#rsvp-button').click(function() {
 		} else {
 			// display success message
 			$form.html('<div class="message-success">' + data.message + '</div>');
+			console.log(data);
 		}
 	}).fail(function (data) {
 		// for debug
-		// console.log(data);
+		$form.html('<div class="message-success">' + data.message + '</div>');
+		console.log(data);
 	});
 });
 
