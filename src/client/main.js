@@ -163,23 +163,28 @@ if(galleryCarousel) {
 
 /* 5. Form
 ===================================*/
-(function ($, window, document, undefined) {
-	var $form = $('#contact-form');
-	$form.submit(function (e) {
+	$('#rsvp-button').click(function() {
+		console.log('here');
+		return;
 		// remove the error class
 		$('.form-group').removeClass('has-error');
 		$('.help-block').remove();
+
+		if ($("#attending option:selected").val() !== "Yes" && $("#attending option:selected").val() !== "No") {
+			alert("Please select an option from the dropdown");
+		}
+
 		// get the form data
 		var formData = {
 			'name' : $('input[name="form-name"]').val(),
-			'email' : $('input[name="form-email"]').val(),
-			'number' : $('input[name="form-number"]').val(),
-			'select' : $("#sel1 option:selected").val()
+			'numGuests' : $('input[name="form-number-guests"]').val(),
+			'isAttending' : $("#attending option:selected").val() === "Yes",
+			'weddingCode' : $('input[name="form-wedding-code"]').val()
 		};
 		// process the form
 		$.ajax({
 			type : 'POST',
-			url  : 'form.php',
+			url  : 'http://localhost:8080/rsvp',
 			data : formData,
 			dataType : 'json',
 			encode : true
@@ -206,9 +211,8 @@ if(galleryCarousel) {
 			// for debug
 			// console.log(data);
 		});
-		e.preventDefault();
 	});
-}(jQuery, window, document));
+
 /* 6. Select arrow
 =======================================*/
 $(document).on('click', function(event) {

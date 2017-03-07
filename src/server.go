@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"gopkg.in/gin-gonic/gin.v1"
 	"gopkg.in/mgo.v2"
 	"log"
@@ -13,6 +13,7 @@ type Rsvp struct {
 	Name string `json: "name"`
 	NumGuests int `json: "num_Guests"`
 	IsAttending bool `json: "IsAttending"`
+	WeddingCode string `json: "WeddingCode"`
 }
 
 const (
@@ -52,7 +53,15 @@ func main() {
 	r.POST("/rsvp", func(c *gin.Context) {
 		var rsvp Rsvp
 		c.BindJSON(&rsvp)
-		fmt.Println(rsvp.Name)
+
+		if string(rsvp.WeddingCode) != "5683" {
+			c.JSON(400, gin.H{
+				"error": true,
+				"message": "Invalid Wedding Code. Please try again",
+			})
+
+			return
+		}
 
 		rsvpCollection := db.C("rsvps")
 

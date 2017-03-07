@@ -326,30 +326,30 @@
 					<img src="img/divider.png" alt="divider">
 				</div>
 				<p class="intro-text text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, doloribus ab. Aliquid incidunt quibusdam aut nisi dolores</p>
-				<form action="form.php" id="contact-form" class="form-horizontal" method="post">
+				<form id="rsvp-form" class="form-horizontal">
 					<div class="row">
 						<div id="name-field" class="form-field col-sm-12">
 							<label for="form-name" class="control-label">Full name</label>
 							<input type="text" class="form-control" id="form-name" name="form-name" placeholder="Name" required>
 						</div>
-						<div id="email-field" class="form-field col-sm-12">
-							<label for="form-email" class="control-label">Email</label>
-							<input type="email" class="form-control" id="form-email" name="form-email" placeholder="Email" required>
-						</div>
 						<div id="number-field" class="form-field col-sm-6">
-							<label for="form-number" class="control-label">Number of guests</label>
+							<label for="form-number-guests" class="control-label">Number of guests</label>
 							<input type="text" class="form-control" id="form-number" name="form-number" placeholder="Enter Number" required>
 						</div>
 						<div id="select-field" class="form-field col-sm-6 select-wrap">
-							<label for="sel1" class="control-label">Select list:</label>
-							<select class="form-control" id="sel1" name="mysel">
-								<option value="All events">All events</option>
-								<option value="Ceremony">Ceremony</option>
-								<option value="Party">Party</option>
+							<label for="sel1" class="control-label">Will you be attending?</label>
+							<select class="form-control" id="attending" name="attending">
+								<option disabled selected value> -- select an option -- </option>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>
 							</select>
 						</div>
+						<div id="wedding-code-container" class="form-field col-sm-12">
+							<label for="wedding-code" class="control-label">Wedding Code</label>
+							<input type="text" class="form-control" id="wedding-code" name="form-wedding-code" placeholder="Wedding Code" required>
+						</div>
 						<div class="col-sm-12 text-center">
-							<button type="submit" class="send-button">I'm attending</button>
+							<button id="rsvp-button" class="send-button">Submit</button>
 						</div>
 					</div>
 				</form>

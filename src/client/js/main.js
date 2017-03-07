@@ -1,9 +1,22 @@
-/* 0. Navbar
+/*
+Title: Main JS File
+Theme Name: Wedding
+Author Name: FairyTheme
+Author URI: http://themeforest.net/user/fairytheme
 ====================*/
-$(".nav a").on("click", function(){
-   $(".nav").find(".nav-active").removeClass("nav-active");
-   $(this).parent().addClass("nav-active");
-});
+/*
+Table of Contents:
+------------------
+1. Loader
+2. Page scrolling
+3. Countdown
+4. OWL Gallery
+5. Form
+6. Select arrow
+7. Map
+8. Gifts list
+9. Blog
+10. Youtube video BG
 
 /* 1. Loader
 ====================*/
@@ -12,14 +25,6 @@ $(window).on('load', function() {
 	$('.loader').delay(600).fadeOut('slow');
 	imgIntoBg();
 });
-
-function imgIntoBg() {
-	$(".img-into-bg").each(function(b, c) {
-		var thisImg = $(this);
-		thisImg.parent().css("background-image", 'url("' + thisImg.attr("src") + '")'), thisImg.remove()
-	})
-}
-
 //jQuery to collapse the navbar on scroll
 var newNav = $('nav.clone');
 $(window).on('scroll', function() {
@@ -32,7 +37,6 @@ $(window).on('scroll', function() {
 if ($('.wedding-date').length != 0){
 	$('.wedding-date').arctext({radius: 360});
 }
-
 /* 2. Page scrolling
 =====================*/
 //jQuery for page scrolling feature - requires jQuery Easing plugin
@@ -46,7 +50,6 @@ $(function() {
 		$('.navbar-collapse.in').collapse('hide');
 	});
 });
-
 /* 3. Countdown
 =======================*/
 var countdown = document.querySelector('.countdown');
@@ -111,59 +114,103 @@ function initializeClock(id, endtime) {
 	var timeinterval = setInterval(updateClock, 1000);
 }
 // set your wedding date here
-var deadline = 'July 22 2017 12:30:00 GMT-0500';
+var deadline = 'December 17 2017 17:30:00 GMT+0300';
 if (countdown){
 	initializeClock('timer', deadline);
+}
+/* 4. Owl Gallery
+==================================*/
+var mainCarousel = document.querySelector('.main-carousel');
+var galleryCarousel = document.querySelector('.gallery-carousel');
+function imgIntoBg() {
+	$(".img-into-bg").each(function(b, c) {
+		var thisImg = $(this);
+		thisImg.parent().css("background-image", 'url("' + thisImg.attr("src") + '")'), thisImg.remove()
+	})
+}
+if(mainCarousel) {
+	$(mainCarousel).owlCarousel({
+		loop:true,
+		autoplay:true,
+		responsiveClass:true,
+		nav:true,
+		margin:0,
+		navText: [],
+		responsive:{
+			0:{
+				items:1
+			}
+		}
+	});
+}
+if(galleryCarousel) {
+	$(galleryCarousel).owlCarousel({
+		loop:true,
+		autoplay:true,
+		responsiveClass:true,
+		nav:true,
+		margin:2,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:3
+			},
+		}
+	});
 }
 
 /* 5. Form
 ===================================*/
-(function ($, window, document, undefined) {
-	var $form = $('#contact-form');
-	$form.submit(function (e) {
-		// remove the error class
-		$('.form-group').removeClass('has-error');
-		$('.help-block').remove();
-		// get the form data
-		var formData = {
-			'name' : $('input[name="form-name"]').val(),
-			'email' : $('input[name="form-email"]').val(),
-			'number' : $('input[name="form-number"]').val(),
-			'select' : $("#sel1 option:selected").val()
-		};
-		// process the form
-		$.ajax({
-			type : 'POST',
-			url  : 'form.php',
-			data : formData,
-			dataType : 'json',
-			encode : true
-		}).done(function (data) {
-			// handle errors
-			if (!data.success) {
-				if (data.errors.name) {
-					$('#name-field').addClass('has-error');
-					$('#name-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.name + '</span>');
-				}
-				if (data.errors.email) {
-					$('#email-field').addClass('has-error');
-					$('#email-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.email + '</span>');
-				}
-				if (data.errors.number) {
-					$('#number-field').addClass('has-error');
-					$('#number-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.subject + '</span>');
-				}
-			} else {
-				// display success message
-				$form.html('<div class="message-success">' + data.message + '</div>');
+$('#rsvp-button').click(function() {
+	// remove the error class
+	$('.form-group').removeClass('has-error');
+	$('.help-block').remove();
+
+	if ($("#attending option:selected").val() !== "Yes" && $("#attending option:selected").val() !== "No") {
+		alert("Please select an option from the dropdown");
+	}
+
+	// get the form data
+	var formData = {
+		'name' : $('input[name="form-name"]').val(),
+		'numGuests' : $('input[name="form-number-guests"]').val(),
+		'isAttending' : $("#attending option:selected").val() === "Yes",
+		'weddingCode' : $('input[name="form-wedding-code"]').val()
+	};
+	// process the form
+	$.ajax({
+		type : 'POST',
+		url  : 'http://localhost:8080/rsvp',
+		data : formData,
+		dataType : 'json',
+		encode : true
+	}).done(function (data) {
+		// handle errors
+		if (!data.success) {
+			if (data.errors.name) {
+				$('#name-field').addClass('has-error');
+				$('#name-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.name + '</span>');
 			}
-		}).fail(function (data) {
-			// for debug
-			// console.log(data);
-		});
-		e.preventDefault();
+			if (data.errors.email) {
+				$('#email-field').addClass('has-error');
+				$('#email-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.email + '</span>');
+			}
+			if (data.errors.number) {
+				$('#number-field').addClass('has-error');
+				$('#number-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.subject + '</span>');
+			}
+		} else {
+			// display success message
+			$form.html('<div class="message-success">' + data.message + '</div>');
+		}
+	}).fail(function (data) {
+		// for debug
+		// console.log(data);
 	});
-}(jQuery, window, document));
+});
+
 /* 6. Select arrow
 =======================================*/
 $(document).on('click', function(event) {
