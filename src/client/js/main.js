@@ -176,7 +176,7 @@ $('#rsvp-button').click(function() {
 	// get the form data
 	var formData = {
 		'name' : $('input[name="form-name"]').val(),
-		'numGuests' : $('input[name="form-number-guests"]').val(),
+		'numGuests' : parseInt($('input[name="form-number-guests"]').val()),
 		'isAttending' : $("#attending option:selected").val() === "Yes",
 		'weddingCode' : $('input[name="form-wedding-code"]').val()
 	};
@@ -192,7 +192,7 @@ $('#rsvp-button').click(function() {
 	// 	processData: false
 	$.post({
 		url  : 'http://localhost:8080/rsvp',
-		data : formData,
+		data : JSON.stringify(formData),
 		dataType: 'json'
 	}).done(function (data) {
 		// handle errors
@@ -214,10 +214,11 @@ $('#rsvp-button').click(function() {
 			$form.html('<div class="message-success">' + data.message + '</div>');
 			console.log(data);
 		}
-	}).fail(function (data) {
-		// for debug
-		$form.html('<div class="message-success">' + data.message + '</div>');
-		console.log(data);
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+		$form.html('<div class="message-success">' + jqXHR.responseJSON.message + '</div>');
+		console.log(jqXHR.responseJSON.message);
+		console.log(textStatus);
+		console.log(errorThrown);
 	});
 });
 
