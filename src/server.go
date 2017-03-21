@@ -42,13 +42,29 @@ func main() {
 	r := gin.Default()
 
 	// send index.html so that the static site can be viewed
-	r.StaticFS("/", http.Dir("client"))
+	r.StaticFS("rsvp/", http.Dir("client"))
 
-	/* r.GET("/ring", func(c *gin.Context) { */
-	/* 	c.JSON(200, gin.H{ */
-	/* 		"message": "pong", */
-	/* 	}) */
-	/* }) */
+	r.GET("/rsvps", func(c *gin.Context) {
+		var results []Rsvp
+
+		rsvpCollection := db.C("rsvps")
+
+		err = rsvpCollection.Find(nil).All(&results)
+		
+		if err != nil {
+			// handle error
+			log.Fatal(err)
+			c.JSON(400 ,gin.H{
+				"error": true,
+				"message": err,
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"error": false,
+				"data": results,
+			})
+		}
+	})
 
 	r.POST("/rsvp", func(c *gin.Context) {
 		var rsvp Rsvp
