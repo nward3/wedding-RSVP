@@ -171,6 +171,7 @@ $('#rsvp-button').click(function() {
 
 	if ($("#attending option:selected").val() !== "Yes" && $("#attending option:selected").val() !== "No") {
 		alert("Please select an option from the dropdown");
+		return;
 	}
 
 	// get the form data
@@ -181,15 +182,6 @@ $('#rsvp-button').click(function() {
 		'weddingCode' : $('input[name="form-wedding-code"]').val()
 	};
 
-	console.log(formData);
-
-	// process the form
-	// $.ajax({
-	// 	type : 'POST',
-	// 	url  : 'http://localhost:8080/rsvp',
-	// 	headers: {'Content-Type': 'application/json'},
-	// 	data : formData,
-	// 	processData: false
 	$.post({
 		url  : 'http://localhost:8080/rsvp',
 		data : JSON.stringify(formData),
