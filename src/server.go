@@ -41,6 +41,8 @@ func main() {
 
 	r := gin.Default()
 
+	r.StaticFS("admin/", http.Dir("admin"))
+
 	// send index.html so that the static site can be viewed
 	r.StaticFS("rsvp/", http.Dir("client"))
 
@@ -61,7 +63,7 @@ func main() {
 		} else {
 			c.JSON(200, gin.H{
 				"error": false,
-				"data": results,
+				"responses": results,
 			})
 		}
 	})
@@ -107,5 +109,5 @@ func main() {
 		}
 	})
 
-	r.Run() // listen and serve on 0.0.0.0:8080
+	r.Run(":8080") // listen and serve on 0.0.0.0:8080
 }
