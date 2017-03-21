@@ -1,24 +1,3 @@
-/*
-Table of Contents:
-------------------
-1. Fonts
-2. Basic Styling
-3. Sections
-	3.1. Navigation
-	3.2. Main section
-	3.3. About us
-	3.4. Countdown
-	3.6. Events
-	3.7. Bridesmaid and Groomsman
-	3.10. Gifts
-	3.11. Form
-	3.12. Location
-	3.13. Map
-	3.14. Footer
-4. Theme flowers
-5. Theme color
-6. Blog
-----------------------------------*/
 /* 1.Fonts
 -------------------------------------------------------------- */
 @font-face {
@@ -1791,4 +1770,16 @@ footer p {
 	.single-post + footer {
 		display: none;
 	}
+}
+
+.hidden {
+	display: none;
+}
+
+.error {
+	color: #ff4444;
+}
+
+.success {
+	color: #00C851;
 }

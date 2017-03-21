@@ -187,8 +187,10 @@ $('#rsvp-button').click(function() {
 		data : JSON.stringify(formData),
 		dataType: 'json'
 	}).done(function (data) {
+		$('#rsvp-error-message').addClass('hidden');
+
 		// handle errors
-		if (!data.success) {
+		if (data.error || data.errors) {
 			if (data.errors.name) {
 				$('#name-field').addClass('has-error');
 				$('#name-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.name + '</span>');
@@ -203,14 +205,17 @@ $('#rsvp-button').click(function() {
 			}
 		} else {
 			// display success message
-			$form.html('<div class="message-success">' + data.message + '</div>');
+			$('#rsvp-success-message').removeClass('hidden');
+			$('#rsvp-success-message').text(data.message);
+
 			console.log(data);
 		}
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		$form.html('<div class="message-success">' + jqXHR.responseJSON.message + '</div>');
+		$('#rsvp-error-message').removeClass('hidden');
+		$('#rsvp-error-message').text(jqXHR.responseJSON.message);
+		$('#rsvp-success-message').addClass('hidden');
+
 		console.log(jqXHR.responseJSON.message);
-		console.log(textStatus);
-		console.log(errorThrown);
 	});
 });
 

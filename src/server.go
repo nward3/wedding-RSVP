@@ -77,6 +77,22 @@ func main() {
 		fmt.Println(rsvp.IsAttending)
 		fmt.Println(rsvp.WeddingCode)
 
+		if rsvp.Name == "" {
+			c.JSON(400, gin.H{
+				"error": true,
+				"message": "Please provide your name",
+			})
+
+			return
+		} else if rsvp.NumGuests == 0 || string(rsvp.NumGuests) == "" {
+			c.JSON(400, gin.H{
+				"error": true,
+				"message": "Please specify the number of guests",
+			})
+
+			return
+		}
+
 		if string(rsvp.WeddingCode) != "5683" {
 			c.JSON(400, gin.H{
 				"error": true,
@@ -104,7 +120,7 @@ func main() {
 		} else {
 			c.JSON(200, gin.H{
 				"error": false,
-				"message": "success",
+				"message": "We'll see you on the big night!",
 			})
 		}
 	})
