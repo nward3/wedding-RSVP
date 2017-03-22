@@ -26,7 +26,49 @@ body {
 	text-align: center;
 }
 
-.flex-container {
+.centered-container {
 	display: flex;
 	justify-content: center;
+}
+
+.response-container {
+	display: flex;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.num-guests {
+	font-size: 18px;
+	margin-left: 8px;
+}
+
+.guest-name {
+	font-size: 18px;
+	margin-left: 8px;
+}
+
+.song-title {
+	font-size: 18px;
+}
+
+.attending-icon-container {
+}
+
+.circle-icon {
+    color: white;
+    padding: 6px;
+    border-radius: 50%;
+    font-size: 0.80em;
+}
+
+.circle-icon-green {
+    background-color: #00a651;
+}
+
+.circle-icon-red {
+    background-color: #CC0000;
+}
+
+.content {
+	margin-top: 40px;
 }
