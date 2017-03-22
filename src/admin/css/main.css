@@ -44,15 +44,17 @@ body {
 
 .guest-name {
 	font-size: 18px;
-	margin-left: 8px;
+	margin-left: 12px;
 }
 
 .song-title {
 	font-size: 18px;
 }
 
-.attending-icon-container {
-}
+/*.attending-icon-container {
+	width: 12px;
+	height: 12px;
+}*/
 
 .circle-icon {
     color: white;
@@ -61,14 +63,35 @@ body {
     font-size: 0.80em;
 }
 
-.circle-icon-green {
+.attending {
     background-color: #00a651;
 }
 
-.circle-icon-red {
+.not-attending {
     background-color: #CC0000;
 }
 
 .content {
 	margin-top: 40px;
+}
+
+.num-guests-box: {
+	width: 6px;
+	height: 6px;
+	display: flex;
+}
+
+.attending-number-container {
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+}
+
+.attending-number {
+	display: flex;
+	font-size: 14px;
 }
