@@ -1,0 +1,27 @@
+html, body, .glass {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	background-image: url('../img/envelope.jpeg');
+	background-size: cover;
+}
+
+.glass {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255,255,255, 0.25);
+	color: black;
+	padding-top: 10px;
+	padding-bottom: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.centered {
+	width: 100%;
+	text-align: center;
+}
