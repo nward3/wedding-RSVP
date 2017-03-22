@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"sync"
 )
 
 type Rsvp struct {
@@ -14,6 +15,11 @@ type Rsvp struct {
 	NumGuests int `json: "numGuests"`
 	IsAttending bool `json: "isAttending"`
 	WeddingCode string `json: "weddingCode"`
+	RequestedSongs string `json: "requestedSongs"`
+}
+
+type RequestedSong struct {
+	Song string `json: "song"`
 }
 
 const (
@@ -76,6 +82,7 @@ func main() {
 		fmt.Println(rsvp.NumGuests)
 		fmt.Println(rsvp.IsAttending)
 		fmt.Println(rsvp.WeddingCode)
+		fmt.Println(rsvp.RequestedSongs)
 
 		if rsvp.Name == "" {
 			c.JSON(400, gin.H{
@@ -103,27 +110,41 @@ func main() {
 		}
 
 		rsvpCollection := db.C("rsvps")
+		requestedSongsCollection := db.C("requested_songs")
 
-		err = rsvpCollection.Insert(
-			&Rsvp{
-				Name: rsvp.Name,
-				NumGuests: rsvp.NumGuests,
-				IsAttending: rsvp.IsAttending})
+		var waitGroup sync.WaitGroup
 
-		if err != nil {
-			// handle error
-			log.Fatal(err)
-			c.JSON(400, gin.H{
-				"error": true,
-				"message": err,
-			})
-		} else {
-			c.JSON(200, gin.H{
-				"error": false,
-				"message": "We'll see you on the big night!",
-			})
-		}
+		waitGroup.Add(2)
+
+		go addRsvp(rsvpCollection, &rsvp, &waitGroup)
+		go addRequestedSong(requestedSongsCollection, rsvp.RequestedSongs, &waitGroup)
+
+		// wait for all queries to finish
+		waitGroup.Wait()
+
+		c.JSON(200, gin.H{
+			"error": false,
+			"message": "We'll see you on the big night!",
+		})
 	})
 
 	r.Run(":8080") // listen and serve on 0.0.0.0:8080
+}
+
+func addRequestedSong(requestedSongsCollection *mgo.Collection, songTitle string, wg *sync.WaitGroup) {
+	requestedSongsCollection.Insert(
+		&RequestedSong{
+			Song: songTitle})
+
+	wg.Done()
+}
+
+func addRsvp(rsvpCollection *mgo.Collection, rsvp *Rsvp, wg *sync.WaitGroup) {
+	rsvpCollection.Insert(
+		&Rsvp{
+			Name: rsvp.Name,
+			NumGuests: rsvp.NumGuests,
+			IsAttending: rsvp.IsAttending})
+
+	wg.Done()
 }

@@ -164,6 +164,9 @@ if(galleryCarousel) {
 /* 5. Form
 ===================================*/
 $('#rsvp-button').click(function() {
+	// disable the button so that the form cannot be submitted multiple times
+	$('#rsvp-button').prop('disabled', true);
+
 	var $form = $('#rsvp-form');
 	// remove the error class
 	$('.form-group').removeClass('has-error');
@@ -179,7 +182,8 @@ $('#rsvp-button').click(function() {
 		'name' : $('input[name="form-name"]').val(),
 		'numGuests' : parseInt($('input[name="form-number-guests"]').val()),
 		'isAttending' : $("#attending option:selected").val() === "Yes",
-		'weddingCode' : $('input[name="form-wedding-code"]').val()
+		'weddingCode' : $('input[name="form-wedding-code"]').val(),
+		'requestedSongs': $('input[name="form-requested-songs"]').val()
 	};
 
 	$.post({
@@ -191,6 +195,8 @@ $('#rsvp-button').click(function() {
 
 		// handle errors
 		if (data.error || data.errors) {
+			$('#rsvp-button').prop('disabled', false);
+
 			if (data.errors.name) {
 				$('#name-field').addClass('has-error');
 				$('#name-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.name + '</span>');
@@ -198,10 +204,6 @@ $('#rsvp-button').click(function() {
 			if (data.errors.email) {
 				$('#email-field').addClass('has-error');
 				$('#email-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.email + '</span>');
-			}
-			if (data.errors.number) {
-				$('#number-field').addClass('has-error');
-				$('#number-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.subject + '</span>');
 			}
 		} else {
 			// display success message
@@ -211,6 +213,8 @@ $('#rsvp-button').click(function() {
 			console.log(data);
 		}
 	}).fail(function (jqXHR, textStatus, errorThrown) {
+		$('#rsvp-button').prop('disabled', false);
+
 		$('#rsvp-error-message').removeClass('hidden');
 		$('#rsvp-error-message').text(jqXHR.responseJSON.message);
 		$('#rsvp-success-message').addClass('hidden');
