@@ -49,23 +49,26 @@ $(window).on('load', function() {
 
 // returns the html string for an rsvp response
 function createResponseElement(response) {
-	var iconColorClass;
+	var iconHtml;
 	if (response.IsAttending) {
-		iconColorClass = ' attending ';
+		iconHtml = [
+			'<div class="attending-number-container attending">',
+				'<div class="attending-number">',
+					response.NumGuests,
+				'</div>',
+			'</div>'
+		].join(' ');
 	} else {
-		iconColorClass = ' not-attending ';
+		iconHtml = [
+			'<div class="attending-icon-container">',
+				'<i class="glyphicon glyphicon-remove circle-icon not-attending"></i>',
+			'</div>'
+		].join(' ');
 	}
 
 	var html = [
 		'<div class="response-container">',
-			'<div class="attending-number-container ' + iconColorClass + '">',
-				'<div class="attending-number">',
-					response.NumGuests,
-				'</div>',
-			'</div>',
-			// '<span class="num-guests">',
-			// 	response.NumGuests,
-			// '</span>',
+			iconHtml,
 			'<span class="guest-name">',
 				response.Name,
 			'</span>',

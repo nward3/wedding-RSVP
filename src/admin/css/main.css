@@ -37,11 +37,6 @@ body {
 	margin-bottom: 2px;
 }
 
-.num-guests {
-	font-size: 18px;
-	margin-left: 8px;
-}
-
 .guest-name {
 	font-size: 18px;
 	margin-left: 12px;
@@ -51,10 +46,10 @@ body {
 	font-size: 18px;
 }
 
-/*.attending-icon-container {
-	width: 12px;
-	height: 12px;
-}*/
+.attending-icon-container {
+	width: 24px;
+	height: 24px;
+}
 
 .circle-icon {
     color: white;
