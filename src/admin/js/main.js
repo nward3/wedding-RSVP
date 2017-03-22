@@ -25,4 +25,23 @@ $(window).on('load', function() {
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		console.log(jqXHR.responseJSON.message);
 	});
+
+	$.get({
+		url:	'http://localhost:8080/songs',
+		dataType: 'json'
+	}).done(function (data) {
+		// handle errors
+		if (!data.responses) {
+
+		} else {
+			data.responses.forEach(function(response) {
+				var responseElement = document.createElement("p");
+				responseElement.innerHTML = response.Song;
+				console.log(response);
+				$('#song-responses-container').append(responseElement);
+			});
+		}
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+		console.log(jqXHR.responseJSON.message);
+	});
 });

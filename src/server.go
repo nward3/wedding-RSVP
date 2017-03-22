@@ -74,6 +74,28 @@ func main() {
 		}
 	})
 
+	r.GET("/songs", func(c *gin.Context) {
+		var results []RequestedSong
+
+		songCollection := db.C("requested_songs")
+
+		err = songCollection.Find(nil).All(&results)
+		
+		if err != nil {
+			// handle error
+			log.Fatal(err)
+			c.JSON(400 ,gin.H{
+				"error": true,
+				"message": err,
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"error": false,
+				"responses": results,
+			})
+		}
+	})
+
 	r.POST("/rsvp", func(c *gin.Context) {
 		var rsvp Rsvp
 		c.BindJSON(&rsvp)
