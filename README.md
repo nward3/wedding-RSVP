@@ -19,6 +19,11 @@ This project provides an interface for guests to RSVP for a wedding. The guests 
 This project utilizes go routines and waitgroups to execute multiple MongoDB insertions in parallel. Without using a go routine, the go server would have to wait for the first query to finish, then start the next query and wait for it to finish, and then send the response back to the client. Utilizing go routines, the Mongo insertion of the RSVP data occurs in parallel asynchronously as the Mongo insertion of the song request executes. As soon as both queries are done, the response is sent back to the client. Using go routines in this manner to execute Mongo queries improves the response time of this HTTP request by approximately 50%. 
 
 
+### Acknowledgements
+
+- Website template: http://pavlyukpetr.com/projects/wedding/bigfoto-index.html
+
+
 ### Requirements
 - Golang v1.8
 - gopkg.in/gin-gonic/gin.v1

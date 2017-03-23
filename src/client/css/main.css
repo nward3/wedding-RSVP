@@ -1783,3 +1783,7 @@ footer p {
 .success {
 	color: #00C851;
 }
+
+.countdown {
+	padding-top: 48px;
+}
